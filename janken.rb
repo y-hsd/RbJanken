@@ -1,18 +1,13 @@
-#ジャンケン
+#jankenメソッド
 #グー:0,チョキ:1,パー:2
 #勝ち:0,負け:1,あいこ:2
-#0か1まで繰り返す
+#あいこの場合、繰り返し
+#あっち向いてホイで違う方向の場合、繰り返し
 
-#あっち向いてホイ
-#指向き　上:４,右:５,下:６,左:７
-#顔向き　上:４,右:５,下:６,左:７
-#結果　同じ向き：指が勝ち(終わり)、違う向き：(じゃんけんに戻る)
-
-puts "最初はグーじゃんけん・・・・"
-result ="1"
+puts "最初はグー、じゃんけん・・・・"
 
 def janken
-    puts "[0]グー\n[1]チョキ\n[2]パー\n[3]戦わない"
+  puts "[0]グー\n[1]チョキ\n[2]パー\n[3]戦わない"
 
   player_hand = gets.to_i
   program_hand = rand(3)
@@ -27,30 +22,24 @@ def janken
 
   if player_hand == program_hand
     puts "あいこで"
-    result = "1"
-    return result
+    janken
   elsif(player_hand == 0 && program_hand == 1)||(player_hand == 1 && program_hand == 2)||(player_hand == 2 && program_hand == 0)
     puts "あなたの勝ちです！"
-    result = "2"
-    return result
+    next_game ="2"
+    acchimuite(next_game)
   else
     puts "あなたの負けです！"
-    result = "3"
-    return result
+    next_game = "3"
+    acchimuite(next_game)
   end
 end
 
-next_game = result
-  while next_game == "1"
-      if next_game != "1"
-      break
-      end
-    janken
-  end
-
-next_game = result
-
-def acchimuite
+#あっち向いてホイメソッド
+#指向き　上:４,右:５,下:６,左:７
+#顔向き　上:４,右:５,下:６,左:７
+#じゃんけんで勝敗(resultが2または３)がついたら実行する
+#違う方向ならじゃんけんメソッドを実行
+def acchimuite(next_game)
   if next_game === 2
     puts "あっち向いて・・・"
     puts "[0]上\n[1]右\n[2]下\n[3]左"
@@ -61,29 +50,27 @@ def acchimuite
     hoi = ["上","右","下","左"]
     puts "あなたの向き:#{hoi[player_finger]}, 相手の向き:#{hoi[program_face]}"
 
-  if player_finger == program_face
-    puts "あなたの勝ちです"
-    exit
-  else
-    result = "1"
-    return result
+    if player_finger == program_face
+      puts "あなたの勝ちです"
+      exit
+    else
+      janken
+    end
+  elsif next_game === 3
+    puts "あっち向いて・・・"
+    puts "[0]上\n[1]右\n[2]下\n[3]左"
+
+    player_face = gets.to_i
+    program_finger = rand(4)
+
+    hoi = ["上","右","下","左"]
+    puts "あなたの向き:#{hoi[player_finger]}, 相手の向き:#{hoi[program_face]}"
+
+    if player_face == program_finger
+      puts "あなたの負けです"
+      exit
+    else
+      janken
+    end
   end
-elsif next_game === 3
-  puts "あっち向いて・・・"
-  puts "[0]上\n[1]右\n[2]下\n[3]左"
-
-  player_face = gets.to_i
-  program_finger = rand(4)
-
-  hoi = ["上", "右","下","左"]
-  puts "あなたの向き:#{hoi[player_finger]}, 相手の向き:#{hoi[program_face]}"
-
-  if player_face == program_finger
-    puts "あなたの負けです"
-    exit
-  else
-    result = "1"
-    return result
-  end
-end
 end
